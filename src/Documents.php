@@ -33,9 +33,9 @@ class Documents implements ArrayAccess
 
     public function export()
     {
-        $response = $this->api_call->get($this->getEndpointPath(), [], false);
+        $response = $this->api_call->get($this->getEndpointPath('export'), [], false);
 
-        return explode('\n', $response);
+        return explode("\n", $response);
     }
 
     public function search($search_parameters)
