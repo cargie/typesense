@@ -61,7 +61,7 @@ class Documents implements ArrayAccess
 
     public function offsetGet($offset) {
         if(!$this->offsetExists($offset)) {
-            $this->documents[$offset] = new Document($this->configuration, $offset);
+            $this->documents[$offset] = new Document($this->configuration, $this->collection_name, $offset);
         }
         return $this->documents[$offset];
     }
