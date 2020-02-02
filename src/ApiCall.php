@@ -11,9 +11,13 @@ use Typesense\Exceptions\ {
     RequestMalformed,
     RequestUnauthorized,
     ServerError,
+    Timeout,
     TypesenseClientError
 };
-use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ {
+    ClientException,
+    ConnectException
+};
 
 class ApiCall
 {
@@ -84,6 +88,8 @@ class ApiCall
                     throw self::getExeptions($response->getStatusCode(), $error_message);
                 }
 
+            } catch (ConnectException $e) {
+                throw new Timeout($e->getMessage());
             } catch (ClientException $e) {
 
                 $error_message = json_decode($e->getResponse()->getBody(), true)['message'] ?? 'API Error';
