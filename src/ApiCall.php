@@ -72,9 +72,9 @@ class ApiCall
                         self::API_KEY_HEADER_NAME => $node->api_key
                     ],
                     'query' => $params,
-                    'timeout' => $this->config->timeout_seconds
+                    'timeout' => $this->config->timeout_seconds,
+                    'http_errors' => false
                 ]);
-
 
                 if ($response->getStatusCode() === 200) {
 
@@ -83,7 +83,7 @@ class ApiCall
                     }
                     return $response->getBody();
                 } else {
-                    $error_message = json_decode($response->getBody())['message'] ?? 'API Error';
+                    $error_message = json_decode($response->getBody(), true)['message'] ?? 'API Error';
 
                     throw self::getExeptions($response->getStatusCode(), $error_message);
                 }
@@ -118,6 +118,7 @@ class ApiCall
                 ],
                 'json' => $body,
                 'timeout' => $this->config->timeout_seconds,
+                'http_errors' => false
             ]);
 
             if ($response->getStatusCode() !== 200 && $response->getStatusCode() !== 201) {
@@ -150,6 +151,7 @@ class ApiCall
                 ],
                 'json' => $body,
                 'timeout' => $this->config->timeout_seconds,
+                'http_errors' => false
             ]);
 
             if ($response->getStatusCode() !== 200) {
@@ -183,6 +185,7 @@ class ApiCall
                     ApiCall::API_KEY_HEADER_NAME => $api_key
                 ],
                 'timeout' => $this->config->timeout_seconds,
+                'http_errors' => false
             ]);
 
             if ($response->getStatusCode() !== 200) {
