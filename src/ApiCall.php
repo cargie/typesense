@@ -92,6 +92,8 @@ class ApiCall
             }
             
         }
+
+        throw new TypesenseClientError('All hosts are bad.');
     }
 
     public function post($endpoint, $body)
