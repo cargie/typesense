@@ -112,14 +112,13 @@ class ApiCall
         ]);
 
         try {
-            $response = $client->request('POST', $endpoint, [
+            $response = $client->request('POST', $endpoint, array_merge([
                 'headers' => [
                     ApiCall::API_KEY_HEADER_NAME => $api_key
                 ],
-                'json' => $body,
                 'timeout' => $this->config->timeout_seconds,
                 'http_errors' => false
-            ]);
+            ], $body));
 
             if ($response->getStatusCode() !== 200 && $response->getStatusCode() !== 201) {
                 $error_message = json_decode($response->getBody(), true)['message'] ?? 'API Error';
@@ -145,14 +144,13 @@ class ApiCall
         ]);
 
         try {
-            $response = $client->request('PUT', $endpoint, [
+            $response = $client->request('PUT', $endpoint, array_merge([
                 'headers' => [
                     ApiCall::API_KEY_HEADER_NAME => $api_key
                 ],
-                'json' => $body,
                 'timeout' => $this->config->timeout_seconds,
                 'http_errors' => false
-            ]);
+            ], $body));
 
             if ($response->getStatusCode() !== 200) {
 

@@ -28,7 +28,9 @@ class Documents implements ArrayAccess
 
     public function create($document)
     {
-        return $this->api_call->post($this->getEndpointPath(), $document);
+        return $this->api_call->post($this->getEndpointPath(), [
+            'json' => $document
+        ]);
     }
 
     public function export()
@@ -36,6 +38,20 @@ class Documents implements ArrayAccess
         $response = $this->api_call->get($this->getEndpointPath('export'), [], false);
 
         return explode("\n", $response);
+    }
+
+    public function import($file)
+    {
+        $response = $this->api_call->post($this->getEndpointPath('import'), [
+            'multipart' => [
+                [
+                    'name' => basename($file),
+                    'contents' => fopen($file, 'r')
+                ]
+            ]
+        ]);
+
+        return $response;
     }
 
     public function search($search_parameters)

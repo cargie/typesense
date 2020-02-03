@@ -22,7 +22,9 @@ class Collections implements ArrayAccess
     }
 
     public function create($schema){
-        return $this->api_call->post(self::RESOURCE_PATH, $schema);
+        return $this->api_call->post(self::RESOURCE_PATH, [
+            'json' => $schema
+        ]);
     }
 
     public function retrieve(){
